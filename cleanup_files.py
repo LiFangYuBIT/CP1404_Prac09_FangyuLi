@@ -15,9 +15,9 @@ def main():
     for name, contents, filenames in os.walk('.'):
 
         for filename in filenames:
-            new_name = get_fixed_filename(filename)
-            print("Renaming {} to {}".format(filename, new_name))
 
+            new_name = get_fixed_filename(get_space(filename))
+            print(f"Renaming {filename} to {new_name}")
             full_name = os.path.join(name, filename)
             new_name = os.path.join(name, new_name)
             os.rename(full_name, new_name)
@@ -28,5 +28,15 @@ def get_fixed_filename(filename):
     return new_name
 
 
+def get_space(filename):
+
+    if ' ' in filename or "_" in filename:
+        return filename
+    else:
+        for j in range(len(filename) - 1):
+            if filename[j].islower() and filename[j + 1].isupper():
+                filename = filename[:j + 1] + ' ' + filename[j + 1:]
+        return filename
+
+
 main()
-# demo_walk()
